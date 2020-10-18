@@ -1,17 +1,22 @@
 import React, { useEffect } from "react";
+import {useSelector, useDispatch} from 'react-redux';
 import { useLazyQuery } from "@apollo/react-hooks";
 import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from "../../utils/actions";
 import { idbPromise } from "../../utils/helpers";
 import CartItem from "../CartItem";
 import Auth from "../../utils/auth";
 import "./style.css";
-import { useStoreContext } from "../../utils/GlobalState";
+// import { useStoreContext } from "../../utils/GlobalState";
 import { QUERY_CHECKOUT } from "../../utils/queries";
 import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
-const Cart = () => {
-  const [state, dispatch] = useStoreContext();
+
+export default function Cart () {
+
+  // const [state, dispatch] = useStoreContext();
+  // HOW DO I USE the USESELECTOR??
+  const dispatch = useDispatch()
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
   useEffect(() => {

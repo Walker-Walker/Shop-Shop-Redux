@@ -11,55 +11,65 @@ import {
   CLEAR_CART,
   TOGGLE_CART
 } from "./actions";
+// redux: define initial state
 
-export const reducer = (state, action) => {
-  switch (action.type) {
+let initialState = {
+products:{},
+categories:{},
+currentCategory:{},
+cart:{}
+
+}
+//redux: export default function reducer(currentState, action) { ...... return newState}
+// export const reducer = (state, action) => {
+  export default function reducer(currentState = initialState, action) {
+switch (action.type) {
     // if action type value is the value of `UPDATE_PRODUCTS`, return a new state object with an updated products array
     case UPDATE_PRODUCTS:
       return {
-        ...state,
+        ...currentState,
         products: [...action.products],
       };
-    // if action type value is the value of `UPDATE_CATEGORIES`, return a new state object with an updated categories array
+    // if action type value is the value of `UPDATE_CATEGORIES`, return a new currentState object with an updated categories array
     case UPDATE_CATEGORIES:
       return {
-        ...state,
+        ...currentState,
         categories: [...action.categories],
       };
 
     case UPDATE_CURRENT_CATEGORY:
       return {
-        ...state,
+        ...currentState,
         currentCategory: action.currentCategory,
       };
 
       case ADD_TO_CART:
         return {
-          ...state,
+          ...currentState,
           cartOpen: true,
-          cart: [...state.cart, action.product]
+          cart: [...currentState.cart, action.product]
         };
 
         case ADD_MULTIPLE_TO_CART:
           return {
-            ...state,
-            cart: [...state.cart,...action.products],
+            ...currentState,
+            cart: [...currentState.cart,...action.products],
           };
 
           case REMOVE_FROM_CART:
-            let newState = state.cart.filter(product => {
+            let newState = currentState.cart.filter(product => {
               return product._id !== action._id;
             });
 
             return {
-              ...state,
+              ...currentState,
               cartOpen: newState.length > 0,
               cart: newState
             };
 
             case UPDATE_CART_QUANTITY:
               return {
-                ...state,
+                ...currentState,
                 cartOpen: true,
                 cart: state.cart.map(product => {
                   if(action._id === product._id) {
@@ -71,22 +81,26 @@ export const reducer = (state, action) => {
 
               case CLEAR_CART:
                 return {
-                  ...state,
+                  ...currentState,
                   cartOpen: false,
                   cart: []
                 };
 
                 case TOGGLE_CART: 
                 return {
-                  ...state,
+                  ...currentState,
                   cartOpen: !state.cartOpen
                 };
     //if it's none of these actions, do not update state at all and keep things the same!
     default:
-      return state;
+      return currentState;
   }
-};
+// define initialstate? 
+// let initialState = {  }
 
-export function useProductReducer(initialState) {
-  return useReducer(reducer, initialState);
-}
+  // return newState
+};
+// //not sure if this is workable ?
+// export function useProductReducer(initialState) {
+//   return useReducer(reducer, initialState);
+// }

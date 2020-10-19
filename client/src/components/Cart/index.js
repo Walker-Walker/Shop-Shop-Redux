@@ -16,6 +16,7 @@ export default function Cart () {
 
   // const [state, dispatch] = useStoreContext();
   // HOW DO I USE the USESELECTOR??
+ 
   const dispatch = useDispatch()
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
